@@ -8,7 +8,7 @@ O **AES Top-Level System** integra o núcleo criptográfico AES com a infraestru
 
 A arquitetura foi concebida de forma modular, permitindo a separação clara entre as rotinas de controlo/configuração (via SPI) e o fluxo de transferência de dados em larga escala (via subsistema de memória).
 
-![[Pasted image 20261009105210.png]]
+![alt text](<Pasted image 20261009105210.png>)
 
 ---
 
