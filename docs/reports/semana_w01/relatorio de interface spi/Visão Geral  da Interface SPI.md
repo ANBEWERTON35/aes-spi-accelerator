@@ -35,6 +35,18 @@ Em cada transação de comunicação, os dispositivos passam pelos seguintes est
     
 4. **Conclusão:** Após a troca dos ciclos necessários (geralmente 8 ciclos para completar um byte), o Controlador interrompe a geração de clock no SCK e puxa a linha CS de volta para o nível lógico alto, encerrando a conexão.
 
+### 4.2. Modos de Operação (CPOL e CPHA)
+O protocolo SPI define 4 modos operacionais baseados na combinação da polaridade do clock (CPOL) e na fase de amostragem (CPHA):
+
+| Modo | CPOL | CPHA | Estado de Repouso do Clock | Borda de Amostragem dos Dados |
+| :---: | :---: | :---: | :---: | :---: |
+| **Modo 0** | 0 | 0 | Nível Baixo (0) | Subida (1ª borda) |
+| **Modo 1** | 0 | 1 | Nível Baixo (0) | Descida (2ª borda) |
+| **Modo 2** | 1 | 0 | Nível Alto (1) | Descida (1ª borda) |
+| **Modo 3** | 1 | 1 | Nível Alto (1) | Subida (2ª borda) |
+
+*Para este projeto de acelerador, o modo padrão prioritário de operação será o **Modo 0** (CPOL=0, CPHA=0) ou **Modo 3** (CPOL=1, CPHA=1).*
+
 ### 5. Resumo de Vantagens e Limitações
 
 A simplicidade física do SPI define suas características operacionais críticas:
