@@ -1,59 +1,54 @@
 # ===============
-#     Makefile 
+#   Makefile - Semana 2
 # ===============
 
 # Variáveis de ficheiros e módulos
-TOP_TB      = tb_dummy_top
-RTL_SRCS    = rtl/dummy_top.sv
-TB_SRCS     = tb/tb_dummy_top.sv
+TOP_TB      = tb_semana_02
+RTL_SRCS    = rtl/minisoc_aes_sbox.sv \
+              rtl/minisoc_aes_sub_bytes.sv \
+              rtl/minisoc_aes_shift_rows.sv
+TB_SRCS     = tb/tb_semana_02.sv
 
 # Ferramentas Synopsys
 VLOGAN      = vlogan
 VCS         = vcs
 VERDI       = verdi
-DC_SHELL    = dc_shell
 
 # Flags de compilação e simulação
 VLOGAN_FLAGS = -full64 -sverilog -kdb +v2k
 VCS_FLAGS    = -full64 -debug_access+all -kdb -l vcs_compile.log
 SIM_EXEC     = ./simv
 
-.PHONY: all analyze compile run verdi syn clean
+.PHONY: all analyze compile run verdi clean
 
-# Alvo padrão: analisa, compila e executa a simulação
+# Alvo padrão
 all: analyze compile run
 
 # 1. Análise dos ficheiros SystemVerilog (vlogan)
 analyze:
-	@echo "=== [1/4] Análise de RTL e Testbench com vlogan ==="
+	@echo "=== [1/3] Análise de RTL e Testbench da Semana 02 ==="
 	$(VLOGAN) $(VLOGAN_FLAGS) $(RTL_SRCS)
 	$(VLOGAN) $(VLOGAN_FLAGS) $(TB_SRCS)
 
 # 2. Elaboração e Geração do Binário (vcs)
 compile:
-	@echo "=== [2/4] Elaboração com VCS ==="
+	@echo "=== [2/3] Elaboração com VCS ==="
 	$(VCS) $(VCS_FLAGS) $(TOP_TB) -o simv
 
 # 3. Execução da Simulação
 run:
-	@echo "=== [3/4] A executar simulação em modo Batch ==="
+	@echo "=== [3/3] Executando simulação da Semana 02 ==="
 	$(SIM_EXEC) -l simv.log
 
-# 4. Visualização de Formas de Onda no Verdi
+# 4. Visualização no Verdi (Opcional)
 verdi:
 	@echo "=== A abrir o Verdi ==="
 	$(VERDI) -ssf novas.fsdb -noupdate &
 
-# 5. Síntese Lógica com Synopsys Design Compiler (dc_shell)
-syn:
-	@echo "=== A executar Síntese Lógica no dc_shell ==="
-	$(DC_SHELL) -64bit -f syn/synth.tcl | tee syn/synthesis.log
-
-# Limpeza de ficheiros gerados pelas ferramentas Synopsys
+# Limpeza de ficheiros temporários
 clean:
-	@echo "=== A limpar ficheiros de simulação e síntese ==="
+	@echo "=== Limpando arquivos de simulação ==="
 	rm -rf csrc simv simv.daidir ucli.key
 	rm -rf AN.DB work.lib++ 64
 	rm -rf novas.* verdiLog verdi_config_files
 	rm -rf *.log *.fsdb *.vcd
-	rm -rf command.log filenames*.log
