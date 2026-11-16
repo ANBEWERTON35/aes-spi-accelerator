@@ -3,17 +3,53 @@ module minisoc_aes_sbox (
     output logic [7:0] out_byte
 );
 
+    function automatic logic [7:0] gf_mul(
+        input logic [7:0] a,
+        input logic [7:0] b
+    );
+        int i;
+        logic [7:0] a_reg;
+        logic [7:0] b_reg;
+        logic [7:0] prod;
+        begin
+            a_reg = a;
+            b_reg = b;
+            prod  = 8'h00;
+            for (i = 0; i < 8; i = i + 1) begin
+                if (b_reg[0]) begin
+                    prod = prod ^ a_reg;
+                end
+                a_reg = {a_reg[6:0], 1'b0} ^ (a_reg[7] ? 8'h1b : 8'h00);
+                b_reg = {1'b0, b_reg[7:1]};
+            end
+            return prod;
+        end
+    endfunction
+
+    function automatic logic [7:0] gf_inv(input logic [7:0] x);
+        logic [7:0] x2, x4, x8, x16, x32, x64, x128;
+        begin
+            x2   = gf_mul(x, x);
+            x4   = gf_mul(x2, x2);
+            x8   = gf_mul(x4, x4);
+            x16  = gf_mul(x8, x8);
+            x32  = gf_mul(x16, x16);
+            x64  = gf_mul(x32, x32);
+            x128 = gf_mul(x64, x64);
+            return gf_mul(gf_mul(gf_mul(gf_mul(gf_mul(gf_mul(x2, x4), x8), x16), x32), x64), x128);
+        end
+    endfunction
+
+    logic [7:0] inv;
+
     always_comb begin
-        case (in_byte)
-            8'h00: out_byte = 8'h63; 8'h01: out_byte = 8'h7c; 8'h02: out_byte = 8'h77; 8'h03: out_byte = 8'h7b;
-            8'h04: out_byte = 8'hf2; 8'h05: out_byte = 8'h6b; 8'h06: out_byte = 8'h6f; 8'h07: out_byte = 8'hc5;
-            8'h08: out_byte = 8'h30; 8'h09: out_byte = 8'h01; 8'h0a: out_byte = 8'h67; 8'h0b: out_byte = 8'h2b;
-            8'h0c: out_byte = 8'hfe; 8'h0d: out_byte = 8'hd7; 8'h0e: out_byte = 8'hab; 8'h0f: out_byte = 8'h76;
-            // ... (Para brevidade, a tabela completa de 256 valores deve ser preenchida aqui conforme FIPS-197)
-            8'h53: out_byte = 8'hed;
-            // ...
-            default: out_byte = 8'h00; // Preencher tabela completa para lint sem erros
-        endcase
+        inv = gf_inv(in_byte);
+        out_byte = inv
+                 ^ {inv[6:0], inv[7]}
+                 ^ {inv[5:0], inv[7:6]}
+                 ^ {inv[4:0], inv[7:5]}
+                 ^ {inv[3:0], inv[7:4]}
+                 ^ 8'h63;
     end
 
 endmodule
