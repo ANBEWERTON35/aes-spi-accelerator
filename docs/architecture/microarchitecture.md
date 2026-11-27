@@ -55,7 +55,7 @@ flowchart LR
 O núcleo divide-se na máquina de estados de controle, na expansão de chaves (minisoc_aes_key_exp.sv) e no datapath iterativo (minisoc_aes_dp.sv).
 
 
-![alt text](<Arquitetura Interna do Núcleo AES-1.webp>)
+![alt text](<Arquitetura Interna do Núcleo AES.jpg>)
 
 
 2. Microarquitetura do Núcleo AES (Iterativa — 1 Rodada/Ciclo)
