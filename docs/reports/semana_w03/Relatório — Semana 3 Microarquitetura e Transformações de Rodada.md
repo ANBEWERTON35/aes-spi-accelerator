@@ -66,16 +66,16 @@ Rodei todas as etapas de compilação, simulação e análise estática no servi
 
 O testbench `tb/tb_semana_03.sv` faz a checagem automática das saídas usando `$error` e `$fatal`, e todas as baterias passaram de primeira após os ajustes de sintaxe:
 
-| Bateria de Teste                      | Referência / Vetor Aplicado                                                                                    | Saída Esperada (128 bits / Byte)                          |       Status       |
-| :------------------------------------ | :------------------------------------------------------------------------------------------------------------- | :-------------------------------------------------------- | :----------------: |
-| **Varredura Exaustiva `InvS-Box`**    | Todas as 256 entradas (`0x00` a `0xFF`)                                                                        | $\text{InvSBox}(\text{SBox}(x)) = x$ para 256/256 valores | **PASS**[cite: 20] |
-| **Invertibilidade 128 bits**          | `InvShiftRows(ShiftRows(X))` e `InvMixColumns(MixColumns(X))`                                                  | Recuperação exata do vetor original `X`                   |      **PASS**      |
-| **FIPS-197 Ap. B — Rodada 0**         | `AddRoundKey(3243f6a8..., 2b7e1516...)`                                                                        | `193de3bea0f4e22b9ac68d2ae9f84808`                        | **PASS**[cite: 20] |
-| **FIPS-197 Ap. B — Rodada 1**         | `SubBytes` $\rightarrow$ `ShiftRows` $\rightarrow$ `MixColumns` $\rightarrow$ `AddRoundKey` (`RK[1]`)          | `a49c7ff2689f352b6b5bea43026a5049`                        | **PASS**[cite: 20] |
-| **FIPS-197 Ap. B — Rodada 10**        | `SubBytes` $\rightarrow$ `ShiftRows` $\rightarrow$ `AddRoundKey` (`RK[10]`, sem `MixColumns`)                  | `3925841d02dc09fbdc118597196a0b32`                        | **PASS**[cite: 20] |
-| **FIPS-197 Ap. C.1 — Inicial**        | `AddRoundKey(69c4e0d8..., RK[10])`                                                                             | `7ad5fda789ef4e272bca100b3d9ff59f`                        | **PASS**[cite: 20] |
-| **FIPS-197 Ap. C.1 — Rodada 1 Inv.**  | `InvShiftRows` $\rightarrow$ `InvSubBytes` $\rightarrow$ `AddRoundKey` (`RK[9]`) $\rightarrow$ `InvMixColumns` | `54d990a16ba09ab596bbf40ea111702f`                        | **PASS**[cite: 20] |
-| **FIPS-197 Ap. C.1 — Rodada 10 Inv.** | `InvShiftRows` $\rightarrow$ `InvSubBytes` $\rightarrow$ `AddRoundKey` (`RK[0]`, sem `InvMixColumns`)          | `00112233445                                              |                    |
+| Bateria de Teste                      | Referência / Vetor Aplicado                                                                                    | Saída Esperada (128 bits / Byte)                          |   Status   |
+| :------------------------------------ | :------------------------------------------------------------------------------------------------------------- | :-------------------------------------------------------- | :--------: |
+| **Varredura Exaustiva `InvS-Box`**    | Todas as 256 entradas (`0x00` a `0xFF`)                                                                        | $\text{InvSBox}(\text{SBox}(x)) = x$ para 256/256 valores |  **PASS**  |
+| **Invertibilidade 128 bits**          | `InvShiftRows(ShiftRows(X))` e `InvMixColumns(MixColumns(X))`                                                  | Recuperação exata do vetor original `X`                   |  **PASS**  |
+| **FIPS-197 Ap. B — Rodada 0**         | `AddRoundKey(3243f6a8..., 2b7e1516...)`                                                                        | `193de3bea0f4e22b9ac68d2ae9f84808`                        | **PASS**[] |
+| **FIPS-197 Ap. B — Rodada 1**         | `SubBytes` $\rightarrow$ `ShiftRows` $\rightarrow$ `MixColumns` $\rightarrow$ `AddRoundKey` (`RK[1]`)          | `a49c7ff2689f352b6b5bea43026a5049`                        | **PASS**]  |
+| **FIPS-197 Ap. B — Rodada 10**        | `SubBytes` $\rightarrow$ `ShiftRows` $\rightarrow$ `AddRoundKey` (`RK[10]`, sem `MixColumns`)                  | `3925841d02dc09fbdc118597196a0b32`                        |  **PASS**  |
+| **FIPS-197 Ap. C.1 — Inicial**        | `AddRoundKey(69c4e0d8..., RK[10])`                                                                             | `7ad5fda789ef4e272bca100b3d9ff59f`                        |  **PASS**  |
+| **FIPS-197 Ap. C.1 — Rodada 1 Inv.**  | `InvShiftRows` $\rightarrow$ `InvSubBytes` $\rightarrow$ `AddRoundKey` (`RK[9]`) $\rightarrow$ `InvMixColumns` | `54d990a16ba09ab596bbf40ea111702f`                        |  **PASS**  |
+| **FIPS-197 Ap. C.1 — Rodada 10 Inv.** | `InvShiftRows` $\rightarrow$ `InvSubBytes` $\rightarrow$ `AddRoundKey` (`RK[0]`, sem `InvMixColumns`)          | `00112233445                                              |            |
 
 
 #### Diagrama de Blocos de Topo (`minisoc_top.sv`)
