@@ -71,7 +71,7 @@ Fluxo Inverso (DECRYPT == 1): Aplica AddRoundKey inicial com RK[10] e executa 10
 3. Máquina de Estados Finitos (FSM de Controle)
 
 A FSM do minisoc_aes_top coordena a leitura/escrita da SRAM, a expansão de chaves e as iterações do datapath:
-![alt text](<Máquina de Estados Finitos-1.jpg>)
+![alt text](<Máquina de Estados Finitos.jpg>)
 
 4. Estratégia de CDC (spi_sclk $\leftrightarrow$ clk)
 
