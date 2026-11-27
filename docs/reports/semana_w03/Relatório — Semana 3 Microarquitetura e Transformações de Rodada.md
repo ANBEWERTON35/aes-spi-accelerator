@@ -80,7 +80,7 @@ O testbench `tb/tb_semana_03.sv` faz a checagem automática das saídas usando `
 
 #### Diagrama de Blocos de Topo (`minisoc_top.sv`)
 
-![[Diagrama de Blocos minisosc_top.jpg]]
+![!\[\[Diagrama de Blocos minisosc_top.jpg\]\]](<Diagrama de Blocos minisosc_top.jpg>)
 #### Diagrama de Blocos Interno do Núcleo AES (`minisoc_aes_dp.sv`)
 
-![[Diagrama de Blocos Interno do Núcleo AES.jpg]]
+![!\[\[Diagrama de Blocos Interno do Núcleo AES.jpg\]\]](<Diagrama de Blocos Interno do Núcleo AES.jpg>)
